@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,13 +20,19 @@ public class DbService {
         return repository.findAll();
     }
 
-    public Task getTask(String taskId) {
-
-        List<Task> tasks = repository.findAll();
-
-        return tasks.stream()
-                .filter(f -> f.getId() == Long.valueOf(taskId))
-                .findFirst().get();
+    public Task saveTask(final Task task) {
+        return repository.save(task);
     }
+
+    public Optional<Task> getTask(final Long id) {
+        return repository.findById(id);
+    }
+
+    public void deleteTask(final Long id) {
+        repository.delete(id);
+    }
+
+
+
 
 }
