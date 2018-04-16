@@ -30,13 +30,6 @@ public class TrelloClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);
 
-//    private static URI url(String trelloApiEndpoint, String trelloAppKey, String trelloToken, String trelloUsername) {
-//        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/"+ trelloUsername +"/boards")
-//                .queryParam("key", trelloAppKey)
-//                .queryParam("token", trelloToken)
-//                .queryParam("fields", "name,id")
-//                .queryParam("lists", "all").build().encode().toUri();
-//    }
 
     public List<TrelloBoardDto> getTrelloBoards() {
 

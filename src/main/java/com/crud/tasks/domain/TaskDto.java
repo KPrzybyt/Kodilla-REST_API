@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 public class TaskDto {
 

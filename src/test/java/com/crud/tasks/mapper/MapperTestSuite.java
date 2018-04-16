@@ -16,6 +16,9 @@ public class MapperTestSuite {
     @InjectMocks
     private TrelloMapper trelloMapper;
 
+    @InjectMocks
+    private TaskMapper taskMapper;
+
 
     @Test
     public void mapToCardTest() {
@@ -91,6 +94,65 @@ public class MapperTestSuite {
         assertFalse(trelloBoard.getLists().isEmpty());
         assertEquals("1", trelloBoard.getId());
         assertEquals("exercises", trelloBoard.getName());
+
+    }
+    @Test
+    public void mapToBoardDtoTest() {
+        //Given
+        TrelloList trelloList = new TrelloList("1","To do",true);
+        List<TrelloList> trelloLists = new ArrayList<>();
+        trelloLists.add(trelloList);
+        TrelloBoard trelloBoard = new TrelloBoard("exercises","1",trelloLists);
+        List<TrelloBoard> trelloBoards = new ArrayList<>();
+        trelloBoards.add(trelloBoard);
+        //When
+
+        List<TrelloBoardDto> trelloBoardsDto = trelloMapper.mapToBoardsDto(trelloBoards);
+        TrelloBoardDto trelloBoardDto = trelloBoardsDto.get(0);
+        //Then
+        assertFalse(trelloBoardsDto.isEmpty());
+        assertFalse(trelloBoardDto.getLists().isEmpty());
+        assertEquals("1", trelloBoardDto.getId());
+        assertEquals("exercises", trelloBoardDto.getName());
+
+    }
+
+    @Test
+    public void mapToTaskTest() {
+        //Given
+        TaskDto taskDto = new TaskDto(1L,"physics", "Science");
+        //When
+        Task task = taskMapper.mapToTask(taskDto);
+        //Then
+        assertEquals(1L, task.getId().longValue());
+        assertEquals("physics", task.getTitle());
+        assertEquals("Science", task.getContent());
+    }
+    @Test
+    public void mapToTaskDtoTest() {
+        //Given
+        Task task = new Task(1L,"physics", "Science");
+        //When
+        TaskDto taskDto = taskMapper.mapToTaskDto(task);
+        //Then
+        assertEquals(1L, taskDto.getId().longValue());
+        assertEquals("physics", taskDto.getTitle());
+        assertEquals("Science", taskDto.getContent());
+    }
+    @Test
+    public void mapToTaskDtoListTest() {
+        //Given
+        Task task = new Task(1L,"physics", "Science");
+        List<Task> taskList = new ArrayList<>();
+        taskList.add(task);
+        //When
+        List<TaskDto> taskDtoList = taskMapper.mapToTaskDtoList(taskList);
+        TaskDto taskDto = taskDtoList.get(0);
+        //Then
+        assertFalse(taskDtoList.isEmpty());
+        assertEquals(1L, taskDto.getId().longValue());
+        assertEquals("physics", taskDto.getTitle());
+        assertEquals("Science", taskDto.getContent());
 
     }
 }
