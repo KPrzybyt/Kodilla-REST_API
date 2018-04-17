@@ -1,9 +1,6 @@
 package com.crud.tasks.facade;
 
-import com.crud.tasks.domain.TrelloBoard;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloList;
-import com.crud.tasks.domain.TrelloListDto;
+import com.crud.tasks.domain.*;
 import com.crud.tasks.mapper.TrelloMapper;
 import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.facade.TrelloFacade;
@@ -17,9 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.when;
 
@@ -36,6 +31,26 @@ public class TrelloFacadeTest {
 
     @Mock
     private TrelloMapper trelloMapper;
+
+    @Test
+    public void createCardTest() {
+        //Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto("test", "tests", "2", "1");
+        TrelloCard trelloCard = new TrelloCard("test", "tests", "2", "1");
+        CreatedTrelloCardDto createdTrelloCard = new CreatedTrelloCardDto("1","size","xxx");
+
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloService.createTrelloCard(trelloMapper.mapToCardDto(trelloCard))).thenReturn(createdTrelloCard);
+
+        //When
+        CreatedTrelloCardDto createdTrelloCardDto = trelloFacade.createCard(trelloCardDto);
+
+        //Then
+        assertNotNull(createdTrelloCardDto);
+        assertEquals("1", createdTrelloCardDto.getId());
+        assertEquals("size", createdTrelloCardDto.getName());
+        assertEquals("xxx", createdTrelloCardDto.getShortUrl());
+    }
 
     @Test
     public void shouldFetchEmptyList() {

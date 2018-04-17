@@ -8,9 +8,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloValidatorTest {
@@ -18,26 +22,7 @@ public class TrelloValidatorTest {
     @InjectMocks
     private TrelloValidator trelloValidator;
 
-    @Test
-    public void validateCardWithTestTest() {
 
-        //Given
-        TrelloCard trelloCard = new TrelloCard
-                ("test", "names", "1","2");
-        //When
-        //Then
-        trelloValidator.validateCard(trelloCard);
-    }
-    @Test
-    public void validateCardWithoutTestTest() {
-
-        //Given
-        TrelloCard trelloCard = new TrelloCard
-                ("name", "names", "1","2");
-        //When
-        //Then
-        trelloValidator.validateCard(trelloCard);
-    }
     @Test
     public void validateTrelloBoardsTest() {
         //Given
@@ -49,8 +34,9 @@ public class TrelloValidatorTest {
         List<TrelloBoard> trelloBoards = new ArrayList<>();
         trelloBoards.add(trelloBoard);
         //When
+        List<TrelloBoard> validate = trelloValidator.validateTrelloBoards(trelloBoards);
         //Then
-        trelloValidator.validateTrelloBoards(trelloBoards);
+        assertEquals(0, validate.size());
 
 
     }

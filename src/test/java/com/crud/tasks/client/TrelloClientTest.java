@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -55,6 +56,20 @@ public class TrelloClientTest {
         assertEquals("test_id", fetchedTrelloBoards.get(0).getName());
         assertEquals("test_board", fetchedTrelloBoards.get(0).getId());
         assertEquals(new ArrayList<>(), fetchedTrelloBoards.get(0).getLists());
+    }
+
+    @Test
+    public void getEmptyTrelloBoards() throws URISyntaxException {
+        // Given
+        URI uri = new URI("http://test");
+
+        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
+
+        // When
+        List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
+        // Then
+        assertEquals(0, fetchedTrelloBoards.size());
+
     }
 
     @Test
