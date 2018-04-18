@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -18,7 +17,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,7 +63,7 @@ public class TrelloClientTest {
         // Given
         URI uri = new URI("http://test");
 
-        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
+//        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
 
         // When
         List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
@@ -105,7 +105,7 @@ public class TrelloClientTest {
         // Given
         URI uri = new URI(
                 "http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
-        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
+  //      when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
 
         // When
         List<TrelloBoardDto> emptyTrelloBoards = trelloClient.getTrelloBoards();

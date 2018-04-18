@@ -7,7 +7,7 @@ import com.crud.tasks.service.SimpleEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import sun.misc.Signal;
+//import sun.misc.Signal;
 
 @Component
 public class EmailScheduler {
