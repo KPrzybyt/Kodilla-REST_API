@@ -1,5 +1,6 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
@@ -59,22 +60,33 @@ public class TaskControllerTest {
         ;
     }
 
-    @Test(expected = TaskNotFoundException.class)
+    @Test
     public void getTask() throws Exception {
         //Given
-        TaskDto taskDto = new TaskDto(1L,"Title", "Content");
+        TaskDto taskDto = new TaskDto((long)1,"Title", "Content");
 
-        Long taskId = 1L;
+        Task task = new Task((long)1,"Title", "Content");
+        service.saveTask(task);
 
-        when(taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow((TaskNotFoundException::new)))).thenReturn(taskDto);
+        Long taskId = (long)1;
+        when(taskMapper.mapToTaskDto(service.getTask(taskId).orElse(task))).thenReturn(taskDto);
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200)) //or isOk()
-                .andExpect(jsonPath("$.id",is(1)))
+        mockMvc.perform(get("/v1/task/getTask?taskId=(long)1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",is((long)1)))
                 .andExpect(jsonPath("$.title",is("Title")))
-                .andExpect(jsonPath("$.content",is("Content")))
-        ;
+                .andExpect(jsonPath("$.content",is("Content")));
+    }
+    @Test(expected = TaskNotFoundException.class)
+    public void getEmptyTask() throws Exception {
+        //Given
+        Long taskId = 1L;
+        when(taskMapper.mapToTaskDto(service.getTask(taskId).orElseThrow((TaskNotFoundException::new)))).thenReturn(null);
+
+        // When & Then
+        mockMvc.perform(get("/v1/task/getTask?taskId=1L").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
     }
 
     @Test
