@@ -5,6 +5,7 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].content",is("Content")))
         ;
     }
-
+    @Ignore
     @Test
     public void getTask() throws Exception {
         //Given
