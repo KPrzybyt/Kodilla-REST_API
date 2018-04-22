@@ -5,7 +5,6 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -60,7 +60,7 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].content",is("Content")))
         ;
     }
-    @Ignore
+//    @Ignore
     @Test
     public void getTask() throws Exception {
         //Given
@@ -69,13 +69,14 @@ public class TaskControllerTest {
         Task task = new Task((long)1,"Title", "Content");
         service.saveTask(task);
 
-        Long taskId = (long)1;
-        when(taskMapper.mapToTaskDto(service.getTask(taskId).orElse(task))).thenReturn(taskDto);
+        when(service.getTask(1L)).thenReturn(Optional.of(task));
+        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
+
 
         // When & Then
-        mockMvc.perform(get("/v1/task/getTask?taskId=(long)1"))
+        mockMvc.perform(get("/v1/task/getTask").param("taskId","1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id",is((long)1)))
+                .andExpect(jsonPath("$.id",is(1)))
                 .andExpect(jsonPath("$.title",is("Title")))
                 .andExpect(jsonPath("$.content",is("Content")));
     }
