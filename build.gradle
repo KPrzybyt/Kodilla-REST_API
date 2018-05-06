@@ -34,8 +34,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile('org.projectlombok:lombok')
-	compile('mysql:mysql-connector-java')
-//	compile('org.postgresql:postgresql')
+//	compile('mysql:mysql-connector-java')
+	compile('org.postgresql:postgresql')
 //	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 //	compile('org.springframework.boot:spring-boot-starter-tomcat')
 
